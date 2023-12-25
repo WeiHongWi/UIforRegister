@@ -70,6 +70,10 @@ public class MainActivity extends AppCompatActivity {
                 .setAction("Dismiss",new View.OnClickListener(){
                     @Override
                     public void onClick(View v){
+                        editEmail.setText("");
+                        editName.setText("");
+                        editPassword.setText("");
+                        editReenter.setText("");
 
                     }
 
@@ -77,24 +81,57 @@ public class MainActivity extends AppCompatActivity {
     }
     private boolean validate_data(){
         Log.d(TAG,"validate data: Start");
+        boolean nameerror = false;
+        boolean emailerror = false;
+        boolean passworderror = false;
+        boolean reentererror = false;
         if(editName.getText().toString().equals("")){
             warnName.setVisibility(View.VISIBLE);
             warnName.setText("You forget to fill your name.");
-            return false;
+            nameerror = true;
+
         }
         if(editEmail.getText().toString().equals("")){
             warnEmail.setVisibility(View.VISIBLE);
             warnEmail.setText("You forget to fill your EMAIL.");
-            return false;
+            emailerror = true;
+
         }
         if(editPassword.getText().toString().equals("")){
             warnPassword.setVisibility(View.VISIBLE);
             warnPassword.setText("You forget to fill your Password.");
-            return false;
+            passworderror = true;
+
         }
-        if(editName.getText().toString().equals("")){
+        if(editReenter.getText().toString().equals("")){
             warnReenter.setVisibility(View.VISIBLE);
             warnReenter.setText("You should check the password again.");
+            reentererror = true;
+
+        }
+        if( !editReenter.getText().toString().equals(editPassword.getText().toString())){
+            warnReenter.setVisibility(View.VISIBLE);
+            warnReenter.setText("Please Check Again the Password!");
+            reentererror = true;
+        }
+        if( !emailpattern(editEmail.getText().toString())){
+            warnEmail.setVisibility(View.VISIBLE);
+            warnEmail.setText("Please Enter the correct pattern of email!");
+            reentererror = true;
+        }
+        if(nameerror || passworderror || emailerror || reentererror){
+            return false;
+        }
+
+
+        return true;
+    }
+    private boolean emailpattern(String email){
+
+        String pattern_google = "@gmail.com";
+        String pattern_yahoo = "@yahoo.com";
+
+        if(!email.contains(pattern_google) && !email.contains(pattern_yahoo)){
             return false;
         }
 
